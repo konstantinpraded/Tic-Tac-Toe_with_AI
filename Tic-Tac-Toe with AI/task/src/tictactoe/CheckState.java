@@ -9,14 +9,6 @@ public class CheckState {
     String oWins = "O wins";
     String impossible = "Impossible";
 
-    public CheckState () {
-        this.notFinished = notFinished;
-        this.draw = draw;
-        this.xWins = xWins;
-        this.oWins = oWins;
-        this.impossible = impossible;
-    }
-
     public void figureOutAndPrintState (String[][] array){
         int amountOfXRows = howManyXOLines(array,"X");
         int amountOfORows = howManyXOLines(array,"O");

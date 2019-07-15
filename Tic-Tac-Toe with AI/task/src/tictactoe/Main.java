@@ -10,6 +10,7 @@ public class Main {
         PrintField printField = new PrintField();
         CheckState printGameState = new CheckState();
         InsertMoveToFieldArray getArrayAfterMove = new InsertMoveToFieldArray();
+        CheckMove checkInputCorrectness = new CheckMove();
 
         System.out.print("Enter cells: ");
 
@@ -20,9 +21,11 @@ public class Main {
         printField.printField(fieldArray);
         //printGameState.figureOutAndPrintState(fieldArray);
 
-        System.out.print("Enter the coordinates: ");
-
-        input = scanner.nextLine();
+        do {
+            System.out.print("Enter the coordinates: ");
+            input = scanner.nextLine();
+            checkInputCorrectness.printMessage(checkInputCorrectness.checkInput(fieldArray,input));
+        } while (!checkInputCorrectness.possibleToContinue);
 
         printField.printField(getArrayAfterMove.addSymbolToArray(fieldArray, input));
     }

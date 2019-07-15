@@ -3,10 +3,6 @@ package tictactoe;
 public class inputToArray {
     char[][] contentArray;
 
-    public inputToArray() {
-        this.contentArray = contentArray;
-    }
-
     public char[][] parseInputToArrays (String input){
         input = input.replaceAll("\"", "");
         char [] tempArray = input. toCharArray();
