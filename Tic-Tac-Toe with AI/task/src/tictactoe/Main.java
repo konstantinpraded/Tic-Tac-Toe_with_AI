@@ -11,6 +11,7 @@ public class Main {
         CheckState printGameState = new CheckState();
         InsertMoveToFieldArray getArrayAfterMove = new InsertMoveToFieldArray();
         CheckMove checkInputCorrectness = new CheckMove();
+        EasyLevelMoveGenerator easyGenerator = new EasyLevelMoveGenerator();
 
         System.out.print("Enter cells: ");
 
@@ -21,12 +22,20 @@ public class Main {
         printField.printField(fieldArray);
         //printGameState.figureOutAndPrintState(fieldArray);
 
-        do {
+        /*do {
             System.out.print("Enter the coordinates: ");
             input = scanner.nextLine();
             checkInputCorrectness.printMessage(checkInputCorrectness.checkInput(fieldArray,input));
+        } while (!checkInputCorrectness.possibleToContinue);*/
+
+        do {
+            checkInputCorrectness.checkInput(fieldArray,easyGenerator.generateCoordinates());
         } while (!checkInputCorrectness.possibleToContinue);
 
-        printField.printField(getArrayAfterMove.addSymbolToArray(fieldArray, input));
+        easyGenerator.printMessage();
+
+        printField.printField(getArrayAfterMove.addSymbolToArray(fieldArray, easyGenerator.coordinates));
+
+
     }
 }

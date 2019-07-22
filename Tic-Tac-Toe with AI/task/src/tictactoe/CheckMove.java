@@ -23,12 +23,15 @@ public class CheckMove {
             if (firstCoordinateInt < 4 && firstCoordinateInt >0 && secondCoordinateInt <4 && secondCoordinateInt >0){
                 if ('X'== array[0 - (secondCoordinateInt-3)][firstCoordinateInt - 1] || 'O'== array[0 - (secondCoordinateInt-3)][firstCoordinateInt - 1]){
                     errorCode = 'o';
+                    possibleToContinue = false;
                 }
             }else {
                 errorCode = 'c';
+                possibleToContinue = false;
             }
         } else {
             errorCode = 'n';
+            possibleToContinue = false;
         }
 
         return errorCode;
@@ -40,15 +43,15 @@ public class CheckMove {
         switch (errorCode){
             case 'o':
                 System.out.println("This cell is occupied! Choose another one!");
-                possibleToContinue = false;
+
                 break;
             case 'c':
                 System.out.println("Coordinates should be from 1 to 3");
-                possibleToContinue = false;
+
                 break;
             case 'n':
                 System.out.println("You should enter numbers!");
-                possibleToContinue = false;
+
                 break;
             default:
                 break;
