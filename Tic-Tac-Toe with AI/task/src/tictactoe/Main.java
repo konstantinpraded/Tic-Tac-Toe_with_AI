@@ -13,29 +13,36 @@ public class Main {
         CheckMove checkInputCorrectness = new CheckMove();
         EasyLevelMoveGenerator easyGenerator = new EasyLevelMoveGenerator();
 
-        System.out.print("Enter cells: ");
+        //System.out.print("Enter cells: ");
 
-        String input = scanner.nextLine();
+        String input = "         ";
 
         char [][] fieldArray = toArray.parseInputToArrays(input);
 
         printField.printField(fieldArray);
-        //printGameState.figureOutAndPrintState(fieldArray);
 
-        /*do {
-            System.out.print("Enter the coordinates: ");
-            input = scanner.nextLine();
-            checkInputCorrectness.printMessage(checkInputCorrectness.checkInput(fieldArray,input));
-        } while (!checkInputCorrectness.possibleToContinue);*/
+        while (!printGameState.isGameFinished) {
+            do {
+                System.out.print("Enter the coordinates: ");
+                input = scanner.nextLine();
+                checkInputCorrectness.printMessage(checkInputCorrectness.checkInput(fieldArray, input));
+            } while (!checkInputCorrectness.possibleToContinue);
 
-        do {
-            checkInputCorrectness.checkInput(fieldArray,easyGenerator.generateCoordinates());
-        } while (!checkInputCorrectness.possibleToContinue);
+            printField.printField(getArrayAfterMove.addSymbolToArray(fieldArray, input, "user"));
 
-        easyGenerator.printMessage();
+            printGameState.figureOutState(fieldArray);
 
-        printField.printField(getArrayAfterMove.addSymbolToArray(fieldArray, easyGenerator.coordinates));
+            if (printGameState.figureOutState(fieldArray) == 'p') {
+                do {
+                    checkInputCorrectness.checkInput(fieldArray, easyGenerator.generateCoordinates());
+                } while (!checkInputCorrectness.possibleToContinue && !printGameState.isGameFinished);
 
+                easyGenerator.printMessage();
 
+                printField.printField(getArrayAfterMove.addSymbolToArray(fieldArray, easyGenerator.coordinates, "robot"));
+            }
+            printGameState.figureOutState(fieldArray);
+            printGameState.printGameState(printGameState.figureOutState(fieldArray));
+        }
     }
 }

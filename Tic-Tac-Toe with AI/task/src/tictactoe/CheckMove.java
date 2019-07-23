@@ -5,6 +5,8 @@ public class CheckMove {
     boolean possibleToContinue = true;
 
     public char checkInput (char [][] array, String coordinates){
+        possibleToContinue = true;
+
         String tempInput = coordinates.replaceAll(" ", "");
 
         char firstCoordinate = tempInput.charAt(0);
@@ -39,7 +41,6 @@ public class CheckMove {
     }
 
     public void printMessage (char errorCode){
-        possibleToContinue = true;
         switch (errorCode){
             case 'o':
                 System.out.println("This cell is occupied! Choose another one!");
