@@ -1,4 +1,5 @@
 package tictactoe;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -6,6 +7,36 @@ public class Main {
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
+        TextMessages textMessages = new TextMessages();
+        CommandProcessor commandProcessor = new CommandProcessor();
+        PlayerVsEasyGame play = new PlayerVsEasyGame();
+
+        String input;
+        while (!commandProcessor.endGame) {
+            System.out.print(textMessages.askForCommand);
+            input = scanner.nextLine();
+            commandProcessor.checkCorrectness(commandProcessor.inputToArray(input));
+            if ("exit".equals(input)){
+                commandProcessor.checkCorrectness(commandProcessor.inputToArray(input));
+            }else {
+                while (!commandProcessor.correctCommand) {
+                    commandProcessor.checkCorrectness(commandProcessor.inputToArray(input));
+                    if (commandProcessor.correctCommand == false) {
+                        System.out.println(textMessages.badParams);
+                        System.out.print(textMessages.askForCommand);
+                        input = scanner.nextLine();
+                    }
+                }
+
+                commandProcessor.definePlayers(commandProcessor.inputArray);
+                play.play(commandProcessor.player1, commandProcessor.player2);
+            }
+        }
+
+
+
+
+        /*Scanner scanner = new Scanner(System.in);
         inputToArray toArray = new inputToArray();
         PrintField printField = new PrintField();
         CheckState printGameState = new CheckState();
@@ -43,6 +74,6 @@ public class Main {
             }
             printGameState.figureOutState(fieldArray);
             printGameState.printGameState(printGameState.figureOutState(fieldArray));
-        }
+        }*/
     }
 }
