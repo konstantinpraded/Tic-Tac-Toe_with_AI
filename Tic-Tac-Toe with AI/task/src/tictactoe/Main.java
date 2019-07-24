@@ -1,6 +1,5 @@
 package tictactoe;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -9,34 +8,6 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         TextMessages textMessages = new TextMessages();
         CommandProcessor commandProcessor = new CommandProcessor();
-        PlayerVsEasyGame play = new PlayerVsEasyGame();
-
-        String input;
-        while (!commandProcessor.endGame) {
-            System.out.print(textMessages.askForCommand);
-            input = scanner.nextLine();
-            commandProcessor.checkCorrectness(commandProcessor.inputToArray(input));
-            if ("exit".equals(input)){
-                commandProcessor.checkCorrectness(commandProcessor.inputToArray(input));
-            }else {
-                while (!commandProcessor.correctCommand) {
-                    commandProcessor.checkCorrectness(commandProcessor.inputToArray(input));
-                    if (commandProcessor.correctCommand == false) {
-                        System.out.println(textMessages.badParams);
-                        System.out.print(textMessages.askForCommand);
-                        input = scanner.nextLine();
-                    }
-                }
-
-                commandProcessor.definePlayers(commandProcessor.inputArray);
-                play.play(commandProcessor.player1, commandProcessor.player2);
-            }
-        }
-
-
-
-
-        /*Scanner scanner = new Scanner(System.in);
         inputToArray toArray = new inputToArray();
         PrintField printField = new PrintField();
         CheckState printGameState = new CheckState();
@@ -44,36 +15,144 @@ public class Main {
         CheckMove checkInputCorrectness = new CheckMove();
         EasyLevelMoveGenerator easyGenerator = new EasyLevelMoveGenerator();
 
-        //System.out.print("Enter cells: ");
+        char [][] fieldArray;
 
-        String input = "         ";
+        String input;
+        while (!commandProcessor.endGame) {
+            System.out.print(textMessages.askForCommand);
+            input = scanner.nextLine();
+            commandProcessor.checkCorrectness(commandProcessor.inputToArray(input));
+            if (commandProcessor.correctCommand && !commandProcessor.endGame) {
+                commandProcessor.definePlayers(commandProcessor.inputToArray(input));
 
-        char [][] fieldArray = toArray.parseInputToArrays(input);
+                if (commandProcessor.player1 == 'u' && commandProcessor.player2 == 'e'){
 
-        printField.printField(fieldArray);
+                    input = "         ";
 
-        while (!printGameState.isGameFinished) {
-            do {
-                System.out.print("Enter the coordinates: ");
-                input = scanner.nextLine();
-                checkInputCorrectness.printMessage(checkInputCorrectness.checkInput(fieldArray, input));
-            } while (!checkInputCorrectness.possibleToContinue);
+                    fieldArray = toArray.parseInputToArrays(input);
 
-            printField.printField(getArrayAfterMove.addSymbolToArray(fieldArray, input, "user"));
+                    printField.printField(fieldArray);
 
-            printGameState.figureOutState(fieldArray);
+                    while (!printGameState.isGameFinished) {
+                        if (printGameState.figureOutState(fieldArray) == 'p') {
+                            do {
+                                System.out.print("Enter the coordinates: ");
+                                input = scanner.nextLine();
+                                checkInputCorrectness.printMessage(checkInputCorrectness.checkInput(fieldArray, input));
+                            } while (!checkInputCorrectness.possibleToContinue);
 
-            if (printGameState.figureOutState(fieldArray) == 'p') {
-                do {
-                    checkInputCorrectness.checkInput(fieldArray, easyGenerator.generateCoordinates());
-                } while (!checkInputCorrectness.possibleToContinue && !printGameState.isGameFinished);
+                            printField.printField(getArrayAfterMove.addSymbolToArray(fieldArray, input, "player1"));
+                        }
 
-                easyGenerator.printMessage();
+                        printGameState.figureOutState(fieldArray);
 
-                printField.printField(getArrayAfterMove.addSymbolToArray(fieldArray, easyGenerator.coordinates, "robot"));
+                        if (printGameState.figureOutState(fieldArray) == 'p') {
+                            do {
+                                checkInputCorrectness.checkInput(fieldArray, easyGenerator.generateCoordinates());
+                            } while (!checkInputCorrectness.possibleToContinue && !printGameState.isGameFinished);
+
+                            easyGenerator.printMessage();
+
+                            printField.printField(getArrayAfterMove.addSymbolToArray(fieldArray, easyGenerator.coordinates, "player2"));
+                        }
+                        printGameState.figureOutState(fieldArray);
+                        printGameState.printGameState(printGameState.figureOutState(fieldArray));
+                    }
+                } else if (commandProcessor.player1 == 'u' && commandProcessor.player2 == 'u'){
+                    input = "         ";
+
+                    fieldArray = toArray.parseInputToArrays(input);
+
+                    printField.printField(fieldArray);
+
+                    while (!printGameState.isGameFinished) {
+
+                        if (printGameState.figureOutState(fieldArray) == 'p') {
+                            do {
+                                System.out.print("Enter the coordinates: ");
+                                input = scanner.nextLine();
+                                checkInputCorrectness.printMessage(checkInputCorrectness.checkInput(fieldArray, input));
+                            } while (!checkInputCorrectness.possibleToContinue);
+
+                            printField.printField(getArrayAfterMove.addSymbolToArray(fieldArray, input, "player1"));
+                        }
+
+                        if (printGameState.figureOutState(fieldArray) == 'p') {
+                            do {
+                                System.out.print("Enter the coordinates: ");
+                                input = scanner.nextLine();
+                                checkInputCorrectness.printMessage(checkInputCorrectness.checkInput(fieldArray, input));
+                            } while (!checkInputCorrectness.possibleToContinue);
+
+                            printField.printField(getArrayAfterMove.addSymbolToArray(fieldArray, input, "player2"));
+                        }
+                        printGameState.figureOutState(fieldArray);
+                        printGameState.printGameState(printGameState.figureOutState(fieldArray));
+                    }
+                } else if (commandProcessor.player1 == 'e' && commandProcessor.player2 == 'u'){
+                    input = "         ";
+
+                    fieldArray = toArray.parseInputToArrays(input);
+
+                    printField.printField(fieldArray);
+
+                    while (!printGameState.isGameFinished) {
+                        if (printGameState.figureOutState(fieldArray) == 'p') {
+                            do {
+                                checkInputCorrectness.checkInput(fieldArray, easyGenerator.generateCoordinates());
+                            } while (!checkInputCorrectness.possibleToContinue && !printGameState.isGameFinished);
+
+                            easyGenerator.printMessage();
+
+                            printField.printField(getArrayAfterMove.addSymbolToArray(fieldArray, easyGenerator.coordinates, "player1"));
+                        }
+                        if (printGameState.figureOutState(fieldArray) == 'p') {
+
+                            do {
+                                System.out.print("Enter the coordinates: ");
+                                input = scanner.nextLine();
+                                checkInputCorrectness.printMessage(checkInputCorrectness.checkInput(fieldArray, input));
+                            } while (!checkInputCorrectness.possibleToContinue);
+
+                            printField.printField(getArrayAfterMove.addSymbolToArray(fieldArray, input, "player2"));
+                        }
+                        printGameState.figureOutState(fieldArray);
+                        printGameState.printGameState(printGameState.figureOutState(fieldArray));
+                    }
+                } else if (commandProcessor.player1== 'e' && commandProcessor.player2 == 'e'){
+                    input = "         ";
+
+                    fieldArray = toArray.parseInputToArrays(input);
+
+                    printField.printField(fieldArray);
+
+                    while (!printGameState.isGameFinished) {
+                        if (printGameState.figureOutState(fieldArray) == 'p') {
+                            do {
+                                checkInputCorrectness.checkInput(fieldArray, easyGenerator.generateCoordinates());
+                            } while (!checkInputCorrectness.possibleToContinue && !printGameState.isGameFinished);
+
+                            easyGenerator.printMessage();
+
+                            printField.printField(getArrayAfterMove.addSymbolToArray(fieldArray, easyGenerator.coordinates, "player1"));
+                        }
+                        if (printGameState.figureOutState(fieldArray) == 'p') {
+                            do {
+                                checkInputCorrectness.checkInput(fieldArray, easyGenerator.generateCoordinates());
+                            } while (!checkInputCorrectness.possibleToContinue && !printGameState.isGameFinished);
+
+                            easyGenerator.printMessage();
+
+                            printField.printField(getArrayAfterMove.addSymbolToArray(fieldArray, easyGenerator.coordinates, "player2"));
+                        }
+                        printGameState.printGameState(printGameState.figureOutState(fieldArray));
+                    }
+                }
+            }else if (commandProcessor.endGame){
+                break;
+            }else {
+                System.out.println(textMessages.badParams);
             }
-            printGameState.figureOutState(fieldArray);
-            printGameState.printGameState(printGameState.figureOutState(fieldArray));
-        }*/
+        }
     }
 }
